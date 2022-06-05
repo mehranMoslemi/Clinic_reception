@@ -1,0 +1,189 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Invoice</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			@media print {
+				@page {
+					size: A5;
+				}
+			}
+			ul {
+				padding: 0;
+				margin: 0 0 1rem 0;
+				list-style: none;
+			}
+			body {
+				font-family: "Inter", sans-serif;
+				margin: 0;
+			}
+			table {
+				width: 100%;
+				border-collapse: collapse;
+			}
+			table,
+			table th,
+			table td {
+				border: 2px solid silver;
+			}
+			table th,
+			table td {
+				text-align: right;
+			}
+			h1,
+			h4,
+			p {
+				margin: 0;
+			}
+
+			.container {
+				padding: 10px 0;
+				width: 500px;
+				max-width: 90%;
+				margin: 0 auto;
+			}
+
+			.inv-title {
+				padding: 0px;
+				border: 1px solid silver;
+				text-align: center;
+				margin-bottom: 5px;
+			}
+
+			.inv-logo {
+				width: 500px;
+				display: block;
+				margin: 0 auto;
+				margin-bottom: 10px;
+			}
+
+			/* header */
+			.inv-header {
+				display: flex;
+				margin-bottom: 10px;
+			}
+			.inv-header > :nth-child(1) {
+				flex: 2;
+			}
+			.inv-header > :nth-child(2) {
+				flex: 1;
+			}
+			.inv-header h2 {
+				margin: 0 0 0.3rem 0;
+			}
+			.inv-header ul li {
+				font-size: 15px;
+				padding: 3px 0;
+			}
+
+			/* body */
+			.inv-body table th,
+			.inv-body table td {
+				text-align: left;
+			}
+			.inv-body {
+				margin-bottom: 0px;
+			}
+
+			/* footer */
+			.inv-footer {
+				display: flex;
+				flex-direction: row;
+			}
+			.inv-footer > :nth-child(1) {
+				flex: 2;
+			}
+			.inv-footer > :nth-child(2) {
+				flex: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="inv-title">
+				<h2>Invoice # {{code}}</h2>
+			</div>
+				<img src="{% static 'assets/img/invoice_header.png' %}" class="inv-logo" />
+			
+			<div class="inv-header">
+				<div>
+					<h2>{{p_name}} {{p_midname}} {{p_lastname}}</h2>
+					<ul>
+						<li>date of birth: {{p_bdate}}</li>
+						<li>gender: {{p_gender}}</li>
+						<li>patient phone: {{p_phone}}</li>
+					</ul>
+				</div>
+				<div>
+					<table>
+						<tr>
+							<th>Issue Date</th>
+							<td>{{date}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="inv-body">
+				<table>
+					<thead>
+						<th>Service</th>
+						<th>Price</th>
+					</thead>
+					<tbody>
+						{% for service in services %}
+						<tr>
+							<td>
+								<h4>{{service.name}}</h4>
+								<p>{{service.physician}}</p>
+							</td>
+							<td>{{service.fee}}</td>
+						</tr>
+						{% endfor %}
+						{% if ref_fee > 0 %}
+						<tr>
+							<td>
+								<h4>Refferal fee</h4>
+								
+							</td>
+							<td>{{ref_fee|floatformat:2}}</td>
+						</tr>
+						{% endif %}
+						{% if other_fee > 0 %}
+						<tr>
+							<td>
+								<h4>Other services</h4>
+								
+							</td>
+							<td>{{other_fee|floatformat:2}}</td>
+						</tr>
+						{% endif %}
+						
+					</tbody>
+				</table>
+			</div>
+			<div class="inv-footer">
+				<div><!-- required --></div>
+				<div>
+					<table>
+						<tr>
+							<th>Sub total</th>
+							<td>{{service_fee|floatformat:2}}</td>
+						</tr>
+						<tr>
+							<th>Grand total</th>
+							<td>{{total|floatformat:2}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

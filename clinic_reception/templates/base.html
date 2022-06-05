@@ -13,7 +13,7 @@
 		<meta name="Author" content="Spruko Technologies Private Limited">
 		<meta name="Keywords" content="admin,admin dashboard,admin dashboard template,admin panel template,admin template,admin theme,bootstrap 4 admin template,bootstrap 4 dashboard,bootstrap admin,bootstrap admin dashboard,bootstrap admin panel,bootstrap admin template,bootstrap admin theme,bootstrap dashboard,bootstrap form template,bootstrap panel,bootstrap ui kit,dashboard bootstrap 4,dashboard design,dashboard html,dashboard template,dashboard ui kit,envato templates,flat ui,html,html and css templates,html dashboard template,html5,jquery html,premium,premium quality,sidebar bootstrap 4,template admin bootstrap 4"/>
 		<!-- Title -->
-<title> Valex -  Premium dashboard ui bootstrap rwd admin html5 template </title>
+<title> {% block title %}reception system!{% endblock title %}</title>
 <!-- Favicon -->
 <link rel="icon" href="{% static 'assets/img/brand/favicon.png' %}" type="image/x-icon"/>
 <!-- Icons css -->
@@ -146,7 +146,7 @@
 		
 		<!-- Loader -->
 		<div id="global-loader">
-			<img src="assets/img/loader.svg" class="loader-img" alt="Loader">
+			<img src="{% static 'assets/img/loader.svg' %}" class="loader-img" alt="Loader">
 		</div>
 		<!-- /Loader -->
 		<!-- main-sidebar -->
@@ -165,7 +165,7 @@
 							<img alt="user-img" class="avatar avatar-xl brround" src="{% static 'assets/img/faces/6.jpg' %}"><span class="avatar-status profile-status bg-green"></span>
 						</div>
 						<div class="user-info">
-							<h4 class="font-weight-semibold mt-3 mb-0">Petey Cruiser</h4>
+							<h4 class="font-weight-semibold mt-3 mb-0">{{user.get_full_name}}</h4>
 							<span class="mb-0 text-muted">Premium Member</span>
 						</div>
 					</div>
@@ -282,10 +282,10 @@
 				<div class="container-fluid">
 					<div class="main-header-left ">
 						<div class="responsive-logo">
-							<a href="index.html"><img src="assets/img/brand/logo.png" class="logo-1" alt="logo"></a>
-							<a href="index.html"><img src="assets/img/brand/logo-white.png" class="dark-logo-1" alt="logo"></a>
-							<a href="index.html"><img src="assets/img/brand/favicon.png" class="logo-2" alt="logo"></a>
-							<a href="index.html"><img src="assets/img/brand/favicon.png" class="dark-logo-2" alt="logo"></a>
+							<a href="index.html"><img src="{% static 'assets/img/brand/logo-white.png' %}" class="dark-logo-1" alt="logo"></a>
+							<a href="index.html"><img src="{% static 'assets/img/brand/logo.png' %}" class="logo-1" alt="logo"></a>
+							<a href="index.html"><img src="{% static 'assets/img/brand/favicon.png' %}" class="logo-2" alt="logo"></a>
+							<a href="index.html"><img src="{% static 'assets/img/brand/favicon.png' %}" class="dark-logo-2" alt="logo"></a>
 						</div>
 						<div class="app-sidebar__toggle" data-toggle="sidebar">
 							<a class="open-toggle" href="#"><i class="header-icon fe fe-align-left" ></i></a>
@@ -300,38 +300,38 @@
 							<li class="">
 								<div class="dropdown  nav-itemd-none d-md-flex">
 									<a href="#" class="d-flex  nav-item nav-link pr-0 country-flag1" data-toggle="dropdown" aria-expanded="false">
-										<span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img src="assets/img/flags/us_flag.jpg" alt="img"></span>
+										<span class="avatar country-Flag mr-0 align-self-center bg-transparent"><img src="{% static 'assets/img/flags/us_flag.jpg' %}" alt="img"></span>
 										<div class="my-auto">
 											<strong class="mr-2 ml-2 my-auto">English</strong>
 										</div>
 									</a>
 									<div class="dropdown-menu dropdown-menu-left dropdown-menu-arrow" x-placement="bottom-end">
 										<a href="#" class="dropdown-item d-flex ">
-											<span class="avatar  mr-3 align-self-center bg-transparent"><img src="assets/img/flags/french_flag.jpg" alt="img"></span>
+											<span class="avatar  mr-3 align-self-center bg-transparent"><img src="{% static 'assets/img/flags/french_flag.jpg' %}" alt="img"></span>
 											<div class="d-flex">
 												<span class="mt-2">French</span>
 											</div>
 										</a>
 										<a href="#" class="dropdown-item d-flex">
-											<span class="avatar  mr-3 align-self-center bg-transparent"><img src="assets/img/flags/germany_flag.jpg" alt="img"></span>
+											<span class="avatar  mr-3 align-self-center bg-transparent"><img src="{% static 'assets/img/flags/germany_flag.jpg' %}" alt="img"></span>
 											<div class="d-flex">
 												<span class="mt-2">Germany</span>
 											</div>
 										</a>
 										<a href="#" class="dropdown-item d-flex">
-											<span class="avatar mr-3 align-self-center bg-transparent"><img src="assets/img/flags/italy_flag.jpg" alt="img"></span>
+											<span class="avatar mr-3 align-self-center bg-transparent"><img src="{% static 'assets/img/flags/italy_flag.jpg' %}" alt="img"></span>
 											<div class="d-flex">
 												<span class="mt-2">Italy</span>
 											</div>
 										</a>
 										<a href="#" class="dropdown-item d-flex">
-											<span class="avatar mr-3 align-self-center bg-transparent"><img src="assets/img/flags/russia_flag.jpg" alt="img"></span>
+											<span class="avatar mr-3 align-self-center bg-transparent"><img src="{% static 'assets/img/flags/russia_flag.jpg' %}" alt="img"></span>
 											<div class="d-flex">
 												<span class="mt-2">Russia</span>
 											</div>
 										</a>
 										<a href="#" class="dropdown-item d-flex">
-											<span class="avatar  mr-3 align-self-center bg-transparent"><img src="assets/img/flags/spain_flag.jpg" alt="img"></span>
+											<span class="avatar  mr-3 align-self-center bg-transparent"><img src="{% static 'assets/img/flags/spain_flag.jpg' %}" alt="img"></span>
 											<div class="d-flex">
 												<span class="mt-2">spain</span>
 											</div>
@@ -531,13 +531,13 @@
 								<a class="new nav-link full-screen-link" href="#"><svg xmlns="http://www.w3.org/2000/svg" class="header-icon-svgs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg></a>
 							</div>
 							<div class="dropdown main-profile-menu nav nav-item nav-link">
-								<a class="profile-user d-flex" href="#"><img alt="" src="assets/img/faces/6.jpg"></a>
+								<a class="profile-user d-flex" href="#"><img alt="" src="{% static 'assets/img/faces/6.jpg' %}"></a>
 								<div class="dropdown-menu">
 									<div class="main-header-profile bg-primary p-3">
 										<div class="d-flex wd-100p">
-											<div class="main-img-user"><img alt="" src="assets/img/faces/6.jpg" class=""></div>
+											<div class="main-img-user"><img alt="" src="{% static 'assets/img/faces/6.jpg' %}" class=""></div>
 											<div class="ml-3 my-auto">
-												<h6>Petey Cruiser</h6><span>Premium Member</span>
+												<h6>{{user.get_full_name}}</h6><span>Premium Member</span>
 											</div>
 										</div>
 									</div>

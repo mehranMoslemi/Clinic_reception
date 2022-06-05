@@ -18,6 +18,12 @@ from django.urls import path , include
 from django.conf import settings
 from django.conf.urls.static import static
 
+#...
+admin.site.site_header  =  "Norin medical imaging (Department OF Radiology)"  
+admin.site.site_title  =  "Norin medical imaging (Department OF Radiology)"
+admin.site.index_title  =  "Norin medical imaging (Department OF Radiology)"
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('reception/',include('reception.urls')),

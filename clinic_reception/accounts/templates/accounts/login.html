@@ -1,7 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-	
 <!--  laravel.spruko.com/valex/leftmenu-dark-ltr/signin by  [XR&CO'2014], Sat, 31 Jul 2021 05:43:49 GMT -->
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
@@ -68,13 +67,26 @@
 												<div class="main-signup-header">
 													<h2>Welcome back!</h2>
 													<h5 class="font-weight-semibold mb-4">Please sign in to continue.</h5>
-													{% csrf_token %}
-													<form action="#">
+													
+													<form action= "{% url 'login' %}" method="POST">
+														{% csrf_token %}
+														{% if messages %}
+															{% for message in messages %}
+															<div class="alert alert-danger alert-dismissible fade show" role="alert">
+																<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+																	<span  aria-hidden="true">&times;</span>
+																	<span class="sr-only">Close</span>
+																</button>
+															<strong>error!</strong> {{message}}
+															</div>
+															{% endfor %}
+														   {% endif %}
+
 														<div class="form-group">
-															<label>Username</label> <input class="form-control" placeholder="Enter your username" type="text">
+															<label>Username</label> <input name="username" class="form-control" placeholder="Enter your username" type="text">
 														</div>
 														<div class="form-group">
-															<label>Password</label> <input class="form-control" placeholder="Enter your password" type="password">
+															<label>Password</label> <input name="password" class="form-control" placeholder="Enter your password" type="password">
 														</div><button class="btn btn-main-primary btn-block">Sign In</button>
 													</form>
 													{% comment "forgot password" %}
