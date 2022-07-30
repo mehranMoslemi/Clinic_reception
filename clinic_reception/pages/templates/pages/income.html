@@ -30,9 +30,9 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>MRI Income </th>
-                                <th>CT-scan Income</th>
-                                <th>X-ray Income</th>
+                                <th>{{label}} Income </th>
+                                <th>Discount</th>
+                                <th>total</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,9 +40,9 @@
                             {% for value in values %}
                                 <tr>
                                     <td>{{value.dt}}</td>
-                                    <td>{{value.mri|floatformat:2}}</td>
-                                    <td>{{value.ct|floatformat:2}}</td>
-                                    <td>{{value.x|floatformat:2}}</td>
+                                    <td>{{value.service|floatformat:2}}</td>
+                                    <td>{{value.discount|floatformat:2}}</td>
+                                    <td>{{value.total|floatformat:2}}</td>
                                 </tr>
                             {% endfor %}
                             
@@ -69,27 +69,15 @@
     <script>
         $(function() {
             'use strict';
-            var mri = [];
-            var ct = [];
-            var x = [];
+            var service = [];
             {% for value in values %}
-                mri.push([{{value.day}},{{value.mri}}]);
-                ct.push([{{value.day}},{{value.ct}}]);
-                x.push([{{value.day}},{{value.x}}]);
+                service.push([{{value.day}},{{value.service}}]);
             {% endfor %}
 
             var plot = $.plot($('#custommercount'), [{
-                data: mri,
-                label: 'MRI',
+                data: service,
+                label: '{{label}}',
                 color: '#007bff'
-            }, {
-                data: ct,
-                label: 'ct',
-                color: '#f7557a'
-            }, {
-                data: x,
-                label: 'x',
-                color: '#03fc52'
             }], {
                 series: {
                     lines: {

@@ -10,7 +10,7 @@
                 <div class="main-content-label mg-b-5">
                     Monthly patient chart
                 </div>
-                <p class="mg-b-20">compare this month incomes from diffrent services</p>
+                <p class="mg-b-20">Total_patient_count</p>
                 <div class="ht-300 ht-sm-300" id="custommercount"></div>
             </div>
         </div>
@@ -30,9 +30,7 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>MRI Income </th>
-                                <th>Discount</th>
-                                <th>total</th>
+                                <th>{{label}} patient count </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,9 +38,7 @@
                             {% for value in values %}
                                 <tr>
                                     <td>{{value.dt}}</td>
-                                    <td>{{value.mri}}</td>
-                                    <td>{{value.discount}}</td>
-                                    <td>{{value.total}}</td>
+                                    <td>{{value.service}}</td>
                                 </tr>
                             {% endfor %}
                             
@@ -69,14 +65,14 @@
     <script>
         $(function() {
             'use strict';
-            var mri = [];
+            var service = [];
             {% for value in values %}
-                mri.push([{{value.day}},{{value.mri}}]);
+                service.push([{{value.day}},{{value.service}}]);
             {% endfor %}
 
             var plot = $.plot($('#custommercount'), [{
-                data: mri,
-                label: 'MRI',
+                data: service,
+                label: '{{label}}',
                 color: '#007bff'
             }], {
                 series: {
