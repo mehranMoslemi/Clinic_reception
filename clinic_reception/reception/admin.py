@@ -1,6 +1,6 @@
 from django.utils.html import format_html
 from django.contrib import admin
-from .models import Patient , ReferralPhysician , Physician , Invoice , ServiceMri , ServiceCtscan, ServiceXray , Expenses
+from .models import CT_Invoice, Mri_Invoice, Patient , ReferralPhysician , Physician  , ServiceMri , ServiceCtscan, ServiceXray , Expenses, X_Ray_Invoice
 
 
 
@@ -24,17 +24,23 @@ class ServiceMriAdmin(admin.ModelAdmin):
 class ServiceXrayAdmin(admin.ModelAdmin):
     list_display = ('name','physician','fee')
 
-class InvoiceAdmin(admin.ModelAdmin):
+class MRI_InvoiceAdmin(admin.ModelAdmin):
     def print_mri(self, obj):
-        return format_html('<a class="btn btn-danger" target="_blank" href="/reception/invoice/{}/mri">Print MRI</a>', obj.id)
+        return format_html('<a class="btn btn-danger" target="_blank" href="/reception/invoice/{}/mri">Print MRI invoice</a>', obj.id)
 
-    def print_ct_scan(self, obj):
-        return format_html('<a class="btn btn-danger" target="_blank" href="/reception/invoice/{}/ct">Print CT scan</a>', obj.id)
+    list_display = ('id','date','print_mri')
 
-    def print_x_ray(self, obj):
-        return format_html('<a class="btn btn-danger" target="_blank" href="/reception/invoice/{}/xray">Print X-ray</a>', obj.id)
+class CT_InvoiceAdmin(admin.ModelAdmin):
+    def print_ct(self, obj):
+        return format_html('<a class="btn btn-danger" target="_blank" href="/reception/invoice/{}/ct">Print CT_Scan invoice</a>', obj.id)
 
-    list_display = ('code','date','print_mri','print_ct_scan','print_x_ray')
+    list_display = ('id','date','print_ct')
+
+class X_Ray_InvoiceAdmin(admin.ModelAdmin):
+    def print_x(self, obj):
+        return format_html('<a target="_blank" href="/reception/invoice/{}/xray">Print X_ray invoice</a>', obj.id)
+
+    list_display = ('id','date','print_x')
 
 class ExpensesAdmin(admin.ModelAdmin):
     list_display = ('name','cost','quantity','date')
@@ -45,5 +51,7 @@ admin.site.register(Physician,PhysicianAdmin)
 admin.site.register(ServiceCtscan,ServiceCtscanAdmin)
 admin.site.register(ServiceMri,ServiceMriAdmin)
 admin.site.register(ServiceXray,ServiceXrayAdmin)
-admin.site.register(Invoice,InvoiceAdmin)
+admin.site.register(Mri_Invoice,MRI_InvoiceAdmin)
+admin.site.register(CT_Invoice,CT_InvoiceAdmin)
+admin.site.register(X_Ray_Invoice,X_Ray_InvoiceAdmin)
 admin.site.register(Expenses,ExpensesAdmin)

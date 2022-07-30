@@ -18,3 +18,7 @@ def login(request):
             render(request,'accounts/login.html')
     return render(request,'accounts/login.html')
 
+def logout(request):
+    lgo(request)
+    return render(request,'accounts/login.html')
+

@@ -108,9 +108,6 @@
 	</head>
 	<body>
 		<div class="container">
-			<div class="inv-title">
-				<h2>Invoice # {{code}}</h2>
-			</div>
 				<img src="{% static 'assets/img/invoice_header.png' %}" class="inv-logo" />
 			
 			<div class="inv-header">
@@ -120,13 +117,20 @@
 						<li>date of birth: {{p_bdate}}</li>
 						<li>gender: {{p_gender}}</li>
 						<li>patient phone: {{p_phone}}</li>
+						{% for service in services %}
+							<li>physician: {{service.physician}}</li>
+						{% endfor %}
 					</ul>
 				</div>
 				<div>
 					<table>
 						<tr>
-							<th>Issue Date</th>
+							<td>Issue Date</th>
 							<td>{{date}}</td>
+						</tr>
+						<tr>
+							<td>invoice #</td>
+							<td>{{code}}</td>
 						</tr>
 					</table>
 				</div>
@@ -134,7 +138,7 @@
 			<div class="inv-body">
 				<table>
 					<thead>
-						<th>Service</th>
+						<th>Examination</th>
 						<th>Price</th>
 					</thead>
 					<tbody>
@@ -142,20 +146,10 @@
 						<tr>
 							<td>
 								<h4>{{service.name}}</h4>
-								<p>{{service.physician}}</p>
 							</td>
 							<td>{{service.fee}}</td>
 						</tr>
 						{% endfor %}
-						{% if ref_fee > 0 %}
-						<tr>
-							<td>
-								<h4>Refferal fee</h4>
-								
-							</td>
-							<td>{{ref_fee|floatformat:2}}</td>
-						</tr>
-						{% endif %}
 						{% if other_fee > 0 %}
 						<tr>
 							<td>
@@ -165,7 +159,15 @@
 							<td>{{other_fee|floatformat:2}}</td>
 						</tr>
 						{% endif %}
-						
+						{% if discount > 0 %}
+						<tr>
+							<td>
+								<h4>Discount</h4>
+								
+							</td>
+							<td>{{discount|floatformat:2}}</td>
+						</tr>
+						{% endif %}
 					</tbody>
 				</table>
 			</div>

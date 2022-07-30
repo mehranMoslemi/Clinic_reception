@@ -1,4 +1,4 @@
-from unittest.mock import DEFAULT
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
@@ -43,6 +43,10 @@ class Physician(models.Model):
         return 'DR '+self.first_name+' '+self.last_name
 
 class ServiceMri (models.Model):
+    class Meta:
+        verbose_name = "Examination (MRI)"
+        verbose_name_plural = 'Examinations (MRI)'
+        
     name = models.CharField(verbose_name="service name",max_length=50)
     physician = models.ForeignKey(Physician,on_delete=models.CASCADE)
     fee = models.DecimalField(verbose_name="service fee",max_digits=6,decimal_places=2)
@@ -51,6 +55,9 @@ class ServiceMri (models.Model):
         return self.name+'-'+str(self.physician)
 
 class ServiceCtscan (models.Model):
+    class Meta:
+        verbose_name = "Examination (CT-Scan)"
+        verbose_name_plural = 'Examinations (CT-Scan)'
     name = models.CharField(verbose_name="service name",max_length=50)
     physician = models.ForeignKey(Physician,on_delete=models.CASCADE)
     fee = models.DecimalField(verbose_name="service fee",max_digits=6,decimal_places=2)
@@ -59,6 +66,9 @@ class ServiceCtscan (models.Model):
         return self.name+'-'+str(self.physician)
 
 class ServiceXray (models.Model):
+    class Meta:
+        verbose_name = "Examination (X-Ray)"
+        verbose_name_plural = 'Examinations (X-Ray)'
     name = models.CharField(verbose_name="service name",max_length=50)
     physician = models.ForeignKey(Physician,on_delete=models.CASCADE)
     fee = models.DecimalField(verbose_name="service fee",max_digits=6,decimal_places=2)
@@ -67,24 +77,51 @@ class ServiceXray (models.Model):
         return self.name+'-'+str(self.physician)
 
 
-class Invoice (models.Model):
-    code = models.CharField(verbose_name='invoice code',max_length=7,editable=False, unique=True)
-    date = models.DateTimeField(verbose_name="reception date", auto_now=False, auto_now_add=False)
+class Mri_Invoice (models.Model):
+    class Meta:
+        verbose_name = "Invoice (MRI)"
+        verbose_name_plural = 'Invoices (MRI)'
+
+    date = models.DateField(verbose_name="reception date", auto_now=False, auto_now_add=False)
+    time = models.TimeField(verbose_name="reception time", auto_now=False, auto_now_add=False)
     Patient = models.ForeignKey(Patient, verbose_name="patient", on_delete=models.CASCADE)
     RefferalPhysician = models.ForeignKey(ReferralPhysician, verbose_name='refferal physician', on_delete=models.CASCADE,null=True,blank=True)
     services_mri = models.ManyToManyField(ServiceMri,blank=True,related_name="mri_services")
-    services_ctscan = models.ManyToManyField(ServiceCtscan,blank=True)
-    services_xray = models.ManyToManyField(ServiceXray,blank=True)
-
-    def save(self, *args, **kwargs):
-        if not self.code:
-            self.code = get_random_string(6,"1234567890")
-        return super(Invoice, self).save(*args, **kwargs)
+    discount = models.DecimalField(verbose_name='discount', max_digits=5, decimal_places=2)
 
     def __str__(self) -> str:
-        return str(self.code)+" "+ str(self.date)+(self.Patient.first_name)
+        return str(self.id)+" "+ str(self.date)+(self.Patient.first_name)
 
+class CT_Invoice (models.Model):
+    class Meta:
+        verbose_name = "Invoice (CT-Scan)"
+        verbose_name_plural = 'Invoices (Ct-Scan)'
 
+    date = models.DateField(verbose_name="reception date", auto_now=False, auto_now_add=False)
+    time = models.TimeField(verbose_name="reception time", auto_now=False, auto_now_add=False)
+    Patient = models.ForeignKey(Patient, verbose_name="patient", on_delete=models.CASCADE)
+    RefferalPhysician = models.ForeignKey(ReferralPhysician, verbose_name='refferal physician', on_delete=models.CASCADE,null=True,blank=True)
+    services_ctscan = models.ManyToManyField(ServiceCtscan,blank=True ,related_name="ct_service")
+    discount = models.DecimalField(verbose_name='discount', max_digits=5, decimal_places=2)
+
+    def __str__(self) -> str:
+        return str(self.id)+" "+ str(self.date)+(self.Patient.first_name)
+
+class X_Ray_Invoice (models.Model):
+    class Meta:
+        verbose_name = "Invoice (X-ray)"
+        verbose_name_plural = 'Invoices (X-ray)'
+
+    date = models.DateField(verbose_name="reception date", auto_now=False, auto_now_add=False)
+    time = models.TimeField(verbose_name="reception time", auto_now=False, auto_now_add=False)
+    Patient = models.ForeignKey(Patient, verbose_name="patient", on_delete=models.CASCADE)
+    RefferalPhysician = models.ForeignKey(ReferralPhysician, verbose_name='refferal physician', on_delete=models.CASCADE,null=True,blank=True)
+    services_xray = models.ManyToManyField(ServiceXray,blank=True, related_name='x_invoice')
+    discount = models.DecimalField(verbose_name='discount', max_digits=5, decimal_places=2)
+
+    def __str__(self) -> str:
+        return str(self.id)+" "+ str(self.date)+(self.Patient.first_name)
+        
 class Expenses (models.Model):
     name = models.CharField(verbose_name="expense name",max_length=150)
     cost = models.DecimalField(verbose_name="cost", max_digits=8, decimal_places=2)

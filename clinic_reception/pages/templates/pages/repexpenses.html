@@ -30,9 +30,7 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>MRI Income </th>
-                                <th>CT-scan Income</th>
-                                <th>X-ray Income</th>
+                                <th>Total Expenses</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,9 +38,7 @@
                             {% for value in values %}
                                 <tr>
                                     <td>{{value.dt}}</td>
-                                    <td>{{value.mri}}</td>
-                                    <td>{{value.ct}}</td>
-                                    <td>{{value.x}}</td>
+                                    <td>{{value.exp|floatformat:2}}</td>
                                 </tr>
                             {% endfor %}
                             
@@ -69,27 +65,15 @@
     <script>
         $(function() {
             'use strict';
-            var mri = [];
-            var ct = [];
-            var x = [];
+            var exp = [];
             {% for value in values %}
-                mri.push([{{value.day}},{{value.mri}}]);
-                ct.push([{{value.day}},{{value.ct}}]);
-                x.push([{{value.day}},{{value.x}}]);
+                exp.push([{{value.day}},{{value.exp}}]);
             {% endfor %}
 
             var plot = $.plot($('#custommercount'), [{
-                data: mri,
-                label: 'MRI',
+                data: exp,
+                label: 'Expenses',
                 color: '#007bff'
-            }, {
-                data: ct,
-                label: 'ct',
-                color: '#f7557a'
-            }, {
-                data: x,
-                label: 'x',
-                color: '#03fc52'
             }], {
                 series: {
                     lines: {

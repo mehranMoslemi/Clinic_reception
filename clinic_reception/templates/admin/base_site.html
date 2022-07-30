@@ -1,5 +1,4 @@
 {% extends "admin/base_site.html" %}
-
 {% block extrastyle %}
 <style>
     @media (prefers-color-scheme: dark) { 
@@ -13,7 +12,7 @@
             --body-loud-color: #000;
 
             --breadcrumbs-fg: #c4dce8;
-            --breadcrumbs-bg: var(--primary);
+            --breadcrumbs-bg: #79aec8;
 
             --link-fg: #447e9b;
             --link-hover-color: #036;
@@ -37,4 +36,37 @@
         }
     }
 </style>
+
+{% endblock %}
+
+
+{% block nav-global %}
+<a href="/admin/reception/mri_invoice/add/"><button style ="background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    " class="btn btn-warning" type="button">MRI invoice</button> </a>
+    <a href="/admin/reception/ct_invoice/add/"><button style ="background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        " class="btn btn-warning" type="button">CT-scan invoice</button> </a>
+    
+        <a href="/admin/reception/x_ray_invoice/add/"><button style ="background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        " class="btn btn-warning" type="button">X-ray invoice</button> </a>
 {% endblock %}

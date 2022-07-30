@@ -10,7 +10,7 @@
                 <div class="main-content-label mg-b-5">
                     Monthly patient chart
                 </div>
-                <p class="mg-b-20">compare this month incomes from diffrent services</p>
+                <p class="mg-b-20">compare this month patient conunts of diffrent services</p>
                 <div class="ht-300 ht-sm-300" id="custommercount"></div>
             </div>
         </div>
@@ -19,10 +19,10 @@
         <div class="card">
             <div class="card-header pb-0">
                 <div class="d-flex justify-content-between">
-                    <h4 class="card-title mg-b-0">This mont custommer count and income</h4>
+                    <h4 class="card-title mg-b-0">This mont custommer count</h4>
                     <i class="mdi mdi-dots-horizontal text-gray"></i>
                 </div>
-                <p class="tx-12 tx-gray-500 mb-2">brief report of customers and income</p>
+                <p class="tx-12 tx-gray-500 mb-2">brief report of customers</p>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -30,9 +30,9 @@
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>MRI Income </th>
-                                <th>CT-scan Income</th>
-                                <th>X-ray Income</th>
+                                <th>MRI Patient Count </th>
+                                <th>CT-scan Patient Count</th>
+                                <th>X-ray Patient Count</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,9 +40,9 @@
                             {% for value in values %}
                                 <tr>
                                     <td>{{value.dt}}</td>
-                                    <td>{{value.mri}}</td>
-                                    <td>{{value.ct}}</td>
-                                    <td>{{value.x}}</td>
+                                    <td>{{value.mri|floatformat:0}}</td>
+                                    <td>{{value.ct|floatformat:0}}</td>
+                                    <td>{{value.x|floatformat:0}}</td>
                                 </tr>
                             {% endfor %}
                             

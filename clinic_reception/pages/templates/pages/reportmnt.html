@@ -40,9 +40,9 @@
                             {% for value in values %}
                                 <tr>
                                     <td>{{value.dt}}</td>
-                                    <td>{{value.mri}}</td>
-                                    <td>{{value.ct}}</td>
-                                    <td>{{value.x}}</td>
+                                    <td>{{value.mri|floatformat:2}}</td>
+                                    <td>{{value.ct|floatformat:2}}</td>
+                                    <td>{{value.x|floatformat:2}}</td>
                                 </tr>
                             {% endfor %}
                             
