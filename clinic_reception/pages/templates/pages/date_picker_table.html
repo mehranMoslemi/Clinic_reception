@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags%}
+{% load bootstrap4 %}
+{% block title %}patient{% endblock title %}
+
+{% block container %}
+
+    <div class="col-md-12">
+        <div class="card mg-b-20">
+            <div class="card-body">
+                <h5 class="card-title">MRI report search</h5>
+                <form action="{% url 'dtrep' type='MRI' %}" method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-primary">view report</button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        </div>
+        <div class="card mg-b-20">
+            <div class="card-body">
+                <h5 class="card-title">ct scan report search</h5>
+                <form action="{% url 'dtrep' type='CT SCAN' %}" method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-primary">view report</button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        </div>
+        <div class="card mg-b-20">
+            <div class="card-body">
+                <h5 class="card-title">X Ray report search</h5>
+                <form action="{% url 'dtrep' type='X RAY' %}" method="post" class="form">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    {% buttons %}
+                        <button type="submit" class="btn btn-primary">view report</button>
+                    {% endbuttons %}
+                </form>
+            </div>
+        </div>
+    </div>
+    
+{% endblock container %}
+
+{% block scripts %}
+{% endblock scripts%}

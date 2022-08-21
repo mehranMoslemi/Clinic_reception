@@ -5,9 +5,9 @@ from .models import CT_Invoice, Mri_Invoice, Patient , ReferralPhysician , Physi
 
 
 class PatientAdmin(admin.ModelAdmin):
-    list_display = ('first_name','last_name','code','date_of_birth')
-    list_filter = ('first_name', 'last_name', 'code')
-    search_fields =('code','first_name','last_name')
+    list_display = ('id','first_name','middle_name','last_name','date_of_birth')
+    list_filter = ('first_name', 'last_name', 'id')
+    search_fields =('id','first_name','last_name','middle_name')
 
 class ReferralPhysicianAdmin(admin.ModelAdmin):
     list_display=('first_name','last_name','field','fee')
@@ -25,22 +25,26 @@ class ServiceXrayAdmin(admin.ModelAdmin):
     list_display = ('name','physician','fee')
 
 class MRI_InvoiceAdmin(admin.ModelAdmin):
-    def print_mri(self, obj):
+    def print_invoice(self, obj):
         return format_html('<a class="btn btn-danger" target="_blank" href="/reception/invoice/{}/mri">Print MRI invoice</a>', obj.id)
 
-    list_display = ('id','date','print_mri')
+    list_display = ('id','date','patient_name','total_fee','discount','print_invoice')
+    search_fields =('id','Patient__middle_name','Patient__last_name','Patient__first_name','date')
+
 
 class CT_InvoiceAdmin(admin.ModelAdmin):
-    def print_ct(self, obj):
+    def print_invoice(self, obj):
         return format_html('<a class="btn btn-danger" target="_blank" href="/reception/invoice/{}/ct">Print CT_Scan invoice</a>', obj.id)
 
-    list_display = ('id','date','print_ct')
+    list_display = ('id','date','patient_name','total_fee','discount','print_invoice')
+    search_fields =('id','Patient__middle_name','Patient__last_name','Patient__first_name','date')
 
 class X_Ray_InvoiceAdmin(admin.ModelAdmin):
-    def print_x(self, obj):
+    def print_invoice(self, obj):
         return format_html('<a target="_blank" href="/reception/invoice/{}/xray">Print X_ray invoice</a>', obj.id)
 
-    list_display = ('id','date','print_x')
+    list_display = ('id','date','patient_name','total_fee','discount','print_invoice')
+    search_fields =('id','Patient__middle_name','Patient__last_name','Patient__first_name','date')
 
 class ExpensesAdmin(admin.ModelAdmin):
     list_display = ('name','cost','quantity','date')

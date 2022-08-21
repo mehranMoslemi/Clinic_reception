@@ -16,4 +16,6 @@ urlpatterns = [
     path('report-referral_x',views.report_refferal_x_ray,name='x_ref'),
 
     path('report-expenses',views.report_expanses,name='rexp'),
+
+    path('report-date/<str:type>/',views.date_report,name='dtrep'),
 ]

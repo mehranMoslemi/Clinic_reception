@@ -1,14 +1,13 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils.crypto import get_random_string
+
 
 
 class Patient (models.Model):
     first_name = models.CharField(verbose_name="first name", max_length=50)
     middle_name = models.CharField(verbose_name="middle name", max_length=50)
     last_name = models.CharField(verbose_name="last name", max_length=50)
-    code = models.PositiveIntegerField(verbose_name="patient code",unique=True,editable=False)
     gender_choices = [('M',"Male"),("F","female")]
     gender = models.CharField('gender', max_length=50,choices=gender_choices)
     date_of_birth = models.DateField(verbose_name='date of birth', auto_now=False, auto_now_add=False)
@@ -17,12 +16,11 @@ class Patient (models.Model):
     phone = models.CharField("phone number", max_length=50,null=True)
 
     def __str__(self) -> str:
-        return self.first_name+' '+self.last_name+'-'+str(self.code)
+        return self.first_name+' '+self.middle_name+' '+self.last_name
 
-    def save(self, *args, **kwargs):
-        if not self.code:
-            self.code = get_random_string(6,"1234567890")
-        return super(Patient, self).save(*args, **kwargs)
+    def name(self):
+        return self.first_name+' '+self.middle_name+' '+self.last_name
+
 
 class ReferralPhysician(models.Model):
     first_name = models.CharField(verbose_name="firstname", max_length=50)
@@ -47,9 +45,9 @@ class ServiceMri (models.Model):
         verbose_name = "Examination (MRI)"
         verbose_name_plural = 'Examinations (MRI)'
         
-    name = models.CharField(verbose_name="service name",max_length=50)
+    name = models.CharField(verbose_name="examination name",max_length=50)
     physician = models.ForeignKey(Physician,on_delete=models.CASCADE)
-    fee = models.DecimalField(verbose_name="service fee",max_digits=6,decimal_places=2)
+    fee = models.DecimalField(verbose_name="examination fee",max_digits=6,decimal_places=2)
     
     def __str__(self) -> str:
         return self.name+'-'+str(self.physician)
@@ -58,9 +56,9 @@ class ServiceCtscan (models.Model):
     class Meta:
         verbose_name = "Examination (CT-Scan)"
         verbose_name_plural = 'Examinations (CT-Scan)'
-    name = models.CharField(verbose_name="service name",max_length=50)
+    name = models.CharField(verbose_name="examination name",max_length=50)
     physician = models.ForeignKey(Physician,on_delete=models.CASCADE)
-    fee = models.DecimalField(verbose_name="service fee",max_digits=6,decimal_places=2)
+    fee = models.DecimalField(verbose_name="examination fee",max_digits=6,decimal_places=2)
     
     def __str__(self) -> str:
         return self.name+'-'+str(self.physician)
@@ -69,9 +67,9 @@ class ServiceXray (models.Model):
     class Meta:
         verbose_name = "Examination (X-Ray)"
         verbose_name_plural = 'Examinations (X-Ray)'
-    name = models.CharField(verbose_name="service name",max_length=50)
+    name = models.CharField(verbose_name="examination name",max_length=50)
     physician = models.ForeignKey(Physician,on_delete=models.CASCADE)
-    fee = models.DecimalField(verbose_name="service fee",max_digits=6,decimal_places=2)
+    fee = models.DecimalField(verbose_name="examination fee",max_digits=6,decimal_places=2)
     
     def __str__(self) -> str:
         return self.name+'-'+str(self.physician)
@@ -92,6 +90,15 @@ class Mri_Invoice (models.Model):
     def __str__(self) -> str:
         return str(self.id)+" "+ str(self.date)+(self.Patient.first_name)
 
+    def patient_name(self):
+        return str(self.Patient)
+    
+    def total_fee(self):
+        total = 0
+        for service in self.services_mri.all():
+            total = total+service.fee
+        return total
+
 class CT_Invoice (models.Model):
     class Meta:
         verbose_name = "Invoice (CT-Scan)"
@@ -107,6 +114,16 @@ class CT_Invoice (models.Model):
     def __str__(self) -> str:
         return str(self.id)+" "+ str(self.date)+(self.Patient.first_name)
 
+    def patient_name(self):
+        return str(self.Patient)
+    
+    def total_fee(self):
+        total = 0
+        for service in self.services_ctscan.all():
+            total = total+service.fee
+        return total
+
+
 class X_Ray_Invoice (models.Model):
     class Meta:
         verbose_name = "Invoice (X-ray)"
@@ -121,6 +138,16 @@ class X_Ray_Invoice (models.Model):
 
     def __str__(self) -> str:
         return str(self.id)+" "+ str(self.date)+(self.Patient.first_name)
+
+    def patient_name(self):
+        return str(self.Patient)
+    
+    def total_fee(self):
+        total = 0
+        for service in self.services_xray.all():
+            total = total+service.fee
+        return total
+
         
 class Expenses (models.Model):
     name = models.CharField(verbose_name="expense name",max_length=150)

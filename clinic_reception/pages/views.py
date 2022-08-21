@@ -1,10 +1,11 @@
 
 from calendar import day_abbr, month
 import datetime
+from multiprocessing import context
 from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from numpy import empty
-from reception.forms import PatientForm
+from .forms import DateForm
 from reception.models import CT_Invoice,Mri_Invoice,X_Ray_Invoice,Expenses
 from django.db.models import Count , Sum
 import pandas as pd
@@ -33,8 +34,6 @@ def index(request):
         context = {'values':passlist}
         print(passlist)
         return render(request , 'pages/index.html',context)
-
-
 
 @login_required(login_url='login')
 def report_expanses(request):
@@ -164,8 +163,6 @@ def income_x(request):
         print(passlist)
         return render(request , 'pages/income.html',context)
 
-
-
 @login_required(login_url='login')
 def report_refferal_mri(request):
     if is_super:
@@ -225,3 +222,39 @@ def report_refferal_x_ray(request):
         context = {'values':passlist}
         print(passlist)
         return render(request , 'pages/refferal.html',context)
+
+@login_required(login_url='login')
+def date_report(request,type):
+    if request.method == 'POST':
+        form= DateForm(request.POST or None)
+        if form.is_valid():
+            date_to = form.cleaned_data.get("date_to")
+            date_from = form.cleaned_data.get("date_from")
+            if type =='MRI':
+                invoices = Mri_Invoice.objects.filter(date__range=[date_from,date_to])
+            elif type == 'CT_SCAN':
+                invoices = CT_Invoice.objects.filter(date__range=[date_from,date_to])
+            else :
+                invoices = X_Ray_Invoice.objects.filter(date__range=[date_from,date_to])
+            print('invoice count = ',invoices.count())
+            print_list = list()
+            grand_total = 0.0
+            grand_discount = 0.0
+            for invoice in invoices:
+                if type =="MRI":
+                    services = invoice.services_mri.all()
+                elif type =="CT_SCAN":
+                    services = invoice.services_ctscan.all()
+                else:
+                    services = invoice.services_xray.all()
+                for service in services:
+                    print_list.append({'id':invoice.id,'date':invoice.date,'patient_name':invoice.patient_name(),'doc':service.physician,'ex_fee':service.fee,'discount':invoice.discount/services.count(),'total':service.fee-invoice.discount/services.count()})
+                    grand_total += float(service.fee-invoice.discount/services.count())
+                    grand_discount += float(invoice.discount/services.count())
+            return render(request,'pages/report_table.html',context={'form':form,'print_list':print_list,'type':type,'gt':grand_total,'gd':grand_discount,'dt':date_to,'df':date_from})
+        else:
+            return render(request,'pages/date_picker_table.html',context={'form':form})
+        
+    else:
+        form= DateForm(request.POST or None)
+        return render(request,'pages/date_picker_table.html',context={'form':form})
